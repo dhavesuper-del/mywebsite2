@@ -1,26 +1,200 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>My First Website</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love</title>
     <style>
+        :root {
+            --rose: #d72660;
+            --blush: #ffd9e7;
+            --cream: #fff8f5;
+            --wine: #741c3a;
+            --gold: #b07d3c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial;
-            text-align: center;
-            background-color: #ffe6f0;
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 1.5rem;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--wine);
+            background:
+                radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.5), transparent 42%),
+                radial-gradient(circle at 80% 10%, rgba(255, 210, 228, 0.7), transparent 35%),
+                linear-gradient(145deg, #ffd0e0, #fff2f7 40%, #ffe0c7);
+            overflow: hidden;
         }
+
+        .card {
+            width: min(720px, 100%);
+            background: rgba(255, 255, 255, 0.82);
+            border: 2px solid rgba(183, 125, 60, 0.35);
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 24px 60px rgba(116, 28, 58, 0.2);
+            position: relative;
+            z-index: 2;
+            animation: fadeUp 1.2s ease-out;
+            backdrop-filter: blur(2px);
+        }
+
         h1 {
-            color: red;
+            margin: 0 0 0.75rem;
+            font-size: clamp(2rem, 5vw, 3.1rem);
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+            color: var(--rose);
+            text-shadow: 0 2px 0 rgba(255, 255, 255, 0.4);
         }
-        p {
-            font-size: 18px;
+
+        .subtitle {
+            margin: 0 auto 1.2rem;
+            max-width: 520px;
+            font-size: clamp(1rem, 2.9vw, 1.25rem);
+            line-height: 1.55;
+        }
+
+        .love-note {
+            margin: 1.2rem auto 1.8rem;
+            padding: 1rem;
+            max-width: 560px;
+            border-radius: 14px;
+            border: 1px dashed rgba(215, 38, 96, 0.35);
+            background: linear-gradient(180deg, rgba(255, 240, 245, 0.9), rgba(255, 255, 255, 0.95));
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .surprise-btn {
+            border: 0;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #d72660, #ee5f89);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            padding: 0.75rem 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 10px 18px rgba(215, 38, 96, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .surprise-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 14px 24px rgba(215, 38, 96, 0.3);
+        }
+
+        .surprise-message {
+            margin-top: 1rem;
+            min-height: 1.6rem;
+            font-weight: 700;
+            color: #a01b4a;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            color: rgba(215, 38, 96, 0.45);
+            animation: floatUp linear infinite;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .heart:nth-child(1) { left: 8%; font-size: 18px; animation-duration: 10s; }
+        .heart:nth-child(2) { left: 17%; font-size: 22px; animation-duration: 13s; }
+        .heart:nth-child(3) { left: 30%; font-size: 20px; animation-duration: 12s; }
+        .heart:nth-child(4) { left: 46%; font-size: 16px; animation-duration: 9s; }
+        .heart:nth-child(5) { left: 58%; font-size: 25px; animation-duration: 14s; }
+        .heart:nth-child(6) { left: 71%; font-size: 18px; animation-duration: 11s; }
+        .heart:nth-child(7) { left: 82%; font-size: 20px; animation-duration: 12.5s; }
+        .heart:nth-child(8) { left: 92%; font-size: 17px; animation-duration: 10.5s; }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            to {
+                transform: translateY(-115vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .card {
+                padding: 1.5rem 1rem;
+                border-radius: 18px;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .love-note {
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
 
-<h1>Happy Valentine’s Day! 💖</h1>
-<p>Welcome to my first website!</p>
+    <main class="card" role="main">
+        <h1>Happy Valentine's Day, My Love</h1>
+        <p class="subtitle">You make every day brighter, softer, and happier. This little page is just for you.</p>
 
+        <section class="love-note" aria-label="Love note">
+            Thank you for your smile, your kindness, and the way you make my world feel like home.
+            I love you more than words can explain, today and always.
+        </section>
+
+        <button id="surpriseBtn" class="surprise-btn" type="button">Tap for a Surprise</button>
+        <p id="surpriseMessage" class="surprise-message" aria-live="polite"></p>
+    </main>
+
+    <script>
+        const messages = [
+            "You are my favorite notification.",
+            "Every love song makes sense because of you.",
+            "Forever sounds perfect with you.",
+            "I choose you, every single day."
+        ];
+
+        const button = document.getElementById("surpriseBtn");
+        const message = document.getElementById("surpriseMessage");
+
+        button.addEventListener("click", () => {
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            message.textContent = randomMessage;
+        });
+    </script>
 </body>
 </html>
