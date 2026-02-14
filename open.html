@@ -37,6 +37,11 @@
             padding: 1.2rem;
             overflow-x: hidden;
             overflow-y: auto;
+            animation: pageEnter 0.45s ease both;
+        }
+
+        body.page-exit {
+            animation: pageExit 0.3s ease both;
         }
 
         .bg-hearts {
@@ -288,10 +293,17 @@
             opacity: 1;
         }
 
-        .back-link,
-        .music-btn {
-            display: inline-block;
+        .action-row {
             margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .back-link,
+        .valentine-link {
+            display: inline-block;
             text-decoration: none;
             color: #fff;
             border-radius: 999px;
@@ -305,9 +317,9 @@
             background: linear-gradient(135deg, #b01d50, #8a163f);
         }
 
-        .music-btn {
-            margin-left: 0.5rem;
-            background: linear-gradient(135deg, #2f87db, #1f5ea8);
+        .valentine-link {
+            background: linear-gradient(135deg, #e23c6e, #b61f50);
+            box-shadow: 0 8px 16px rgba(182, 31, 80, 0.25);
         }
 
         @keyframes pageOpen {
@@ -318,6 +330,28 @@
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pageExit {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-6px);
             }
         }
 
@@ -559,7 +593,10 @@
             </figure>
         </section>
 
-        <a class="back-link" href="index.html">Back</a>
+        <div class="action-row">
+            <a class="back-link" href="index.html" data-nav="true">Back</a>
+            <a class="valentine-link" href="valentine.html" data-nav="true">Valentines</a>
+        </div>
 
         <audio id="openMusic" src="backburner.mp3" preload="auto" loop autoplay playsinline></audio>
     </main>
@@ -661,6 +698,16 @@
             }
         });
 
+        document.querySelectorAll("a[data-nav='true']").forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                const target = link.getAttribute("href");
+                document.body.classList.add("page-exit");
+                setTimeout(() => {
+                    window.location.href = target;
+                }, 280);
+            });
+        });
 
     </script>
 </body>
