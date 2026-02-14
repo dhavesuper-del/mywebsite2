@@ -288,15 +288,26 @@
             opacity: 1;
         }
 
-        .back-link {
+        .back-link,
+        .music-btn {
             display: inline-block;
             margin-top: 1rem;
             text-decoration: none;
             color: #fff;
-            background: linear-gradient(135deg, #b01d50, #8a163f);
             border-radius: 999px;
             padding: 0.62rem 1rem;
             font-weight: 700;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .back-link {
+            background: linear-gradient(135deg, #b01d50, #8a163f);
+        }
+
+        .music-btn {
+            margin-left: 0.5rem;
+            background: linear-gradient(135deg, #2f87db, #1f5ea8);
         }
 
         @keyframes pageOpen {
@@ -549,6 +560,8 @@
         </section>
 
         <a class="back-link" href="index.html">Back</a>
+
+        <audio id="openMusic" src="backburner.mp3" preload="auto" loop autoplay playsinline></audio>
     </main>
 
     <script>
@@ -600,6 +613,7 @@
         createSideHearts("sideHeartsRight", 18);
 
         const photoCards = document.querySelectorAll(".photo-card");
+        const openMusic = document.getElementById("openMusic");
 
         photoCards.forEach((card) => {
             const flipCard = () => {
@@ -616,6 +630,38 @@
                 }
             });
         });
+
+        async function tryStartOpenMusic() {
+            try {
+                await openMusic.play();
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function enableOpenMusicOnFirstTap() {
+            const startOnInteraction = async () => {
+                const started = await tryStartOpenMusic();
+                if (started) {
+                    window.removeEventListener("touchstart", startOnInteraction);
+                    window.removeEventListener("click", startOnInteraction);
+                    window.removeEventListener("keydown", startOnInteraction);
+                }
+            };
+
+            window.addEventListener("touchstart", startOnInteraction, { passive: true });
+            window.addEventListener("click", startOnInteraction);
+            window.addEventListener("keydown", startOnInteraction);
+        }
+
+        tryStartOpenMusic().then((started) => {
+            if (!started) {
+                enableOpenMusicOnFirstTap();
+            }
+        });
+
+
     </script>
 </body>
 </html>

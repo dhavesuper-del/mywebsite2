@@ -114,6 +114,11 @@
             box-shadow: 0 10px 18px rgba(141, 23, 64, 0.25);
         }
 
+        .music-btn {
+            background: linear-gradient(135deg, #2f87db, #1f5ea8);
+            box-shadow: 0 10px 18px rgba(31, 94, 168, 0.28);
+        }
+
         .surprise-btn:hover,
         .open-btn:hover {
             transform: translateY(-2px) scale(1.03);
@@ -345,7 +350,10 @@
         <div class="button-row">
             <button id="surpriseBtn" class="surprise-btn" type="button">Tap for a Surprise</button>
             <button id="openBtn" class="open-btn" type="button">Open</button>
+
         </div>
+
+        <audio id="mainMusic" src="main-music.mp3" preload="auto" loop autoplay playsinline></audio>
 
         <p id="surpriseMessage" class="surprise-message" aria-live="polite"></p>
     </main>
@@ -360,6 +368,7 @@
 
         const button = document.getElementById("surpriseBtn");
         const openBtn = document.getElementById("openBtn");
+        const mainMusic = document.getElementById("mainMusic");
         const message = document.getElementById("surpriseMessage");
 
         function createFloatingHearts(containerId, count) {
@@ -415,6 +424,38 @@
         openBtn.addEventListener("click", () => {
             window.location.href = "open.html";
         });
+
+        async function tryStartMainMusic() {
+            try {
+                await mainMusic.play();
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function enableMainMusicOnFirstTap() {
+            const startOnInteraction = async () => {
+                const started = await tryStartMainMusic();
+                if (started) {
+                    window.removeEventListener("touchstart", startOnInteraction);
+                    window.removeEventListener("click", startOnInteraction);
+                    window.removeEventListener("keydown", startOnInteraction);
+                }
+            };
+
+            window.addEventListener("touchstart", startOnInteraction, { passive: true });
+            window.addEventListener("click", startOnInteraction);
+            window.addEventListener("keydown", startOnInteraction);
+        }
+
+        tryStartMainMusic().then((started) => {
+            if (!started) {
+                enableMainMusicOnFirstTap();
+            }
+        });
+
+
     </script>
 </body>
 </html>
