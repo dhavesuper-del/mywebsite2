@@ -28,19 +28,98 @@
             overflow-x: hidden;
         }
 
-        .heart {
+        .bg-hearts {
             position: fixed;
-            bottom: -30px;
-            color: rgba(200, 31, 88, 0.45);
-            animation: floatUp linear infinite;
+            inset: 0;
             pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        .heart:nth-child(1) { left: 10%; font-size: 18px; animation-duration: 11s; }
-        .heart:nth-child(2) { left: 28%; font-size: 24px; animation-duration: 14s; }
-        .heart:nth-child(3) { left: 52%; font-size: 16px; animation-duration: 10s; }
-        .heart:nth-child(4) { left: 72%; font-size: 22px; animation-duration: 13s; }
-        .heart:nth-child(5) { left: 90%; font-size: 17px; animation-duration: 12s; }
+        .side-hearts {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: min(18vw, 140px);
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        .side-hearts.left {
+            left: 0;
+        }
+
+        .side-hearts.right {
+            right: 0;
+        }
+
+        .side-particle {
+            position: absolute;
+            bottom: -10vh;
+            left: 50%;
+            color: rgba(255, 40, 110, 0.98);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+            font-size: 24px;
+            font-weight: 700;
+            animation: sideRise var(--side-duration, 11s) linear infinite;
+            animation-delay: var(--side-delay, 0s);
+            will-change: transform, opacity;
+        }
+
+        .side-particle.tulip {
+            width: 22px;
+            height: 28px;
+            font-size: 0;
+            color: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40'%3E%3Cpath d='M16 6c2 3 4 4 7 5 1 6-2 11-7 14-5-3-8-8-7-14 3-1 5-2 7-5Z' fill='%2350a8ff'/%3E%3Cpath d='M16 25v8' stroke='%23377ec7' stroke-width='2.4' stroke-linecap='round'/%3E%3Cellipse cx='12.5' cy='30' rx='3.5' ry='1.6' transform='rotate(-24 12.5 30)' fill='%2367bbff'/%3E%3Cellipse cx='19.5' cy='30' rx='3.5' ry='1.6' transform='rotate(24 19.5 30)' fill='%2367bbff'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            filter: drop-shadow(0 0 7px rgba(220, 240, 255, 0.95));
+            text-shadow: none;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -12vh;
+            color: rgba(200, 31, 88, 0.62);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            user-select: none;
+            will-change: transform, opacity;
+            animation: floatHeart var(--float-duration, 12s) linear infinite;
+            animation-delay: var(--float-delay, 0s);
+        }
+
+        .sticker-float {
+            position: fixed;
+            width: clamp(56px, 10vw, 92px);
+            aspect-ratio: 1 / 1;
+            z-index: 3;
+            pointer-events: none;
+            animation: stickerDrift 3.2s ease-in-out infinite;
+            filter: drop-shadow(0 8px 12px rgba(111, 23, 54, 0.22));
+        }
+
+        .sticker-svg {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(111, 23, 54, 0.18);
+            padding: 3px;
+        }
+
+        .sticker-svg svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .sticker-1 { top: 18px; left: 14px; animation-delay: 0s; }
+        .sticker-2 { top: 18px; right: 14px; animation-delay: 0.35s; }
+        .sticker-3 { bottom: 20px; left: 14px; animation-delay: 0.7s; }
+        .sticker-4 { bottom: 20px; right: 14px; animation-delay: 1.05s; }
 
         .wrap {
             width: min(900px, 100%);
@@ -62,6 +141,8 @@
             font-size: clamp(1.7rem, 4.3vw, 2.7rem);
         }
 
+
+
         .message {
             line-height: 1.65;
             font-size: clamp(0.96rem, 2.6vw, 1.1rem);
@@ -76,21 +157,124 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 0.75rem;
+            align-items: start;
         }
 
         .photo-card {
+            position: relative;
+            margin: 0;
             border-radius: 14px;
-            overflow: hidden;
             border: 2px solid rgba(200, 31, 88, 0.22);
             background: #fff;
             box-shadow: 0 12px 24px rgba(111, 23, 54, 0.15);
+            perspective: 1000px;
+            cursor: pointer;
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
         }
 
-        .photo-card img {
+        .photo-card::after {
+            content: "Click me";
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 8;
+            padding: 0.28rem 0.48rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #d62566, #a81d50);
+            box-shadow: 0 8px 14px rgba(168, 29, 80, 0.25);
+            opacity: 0;
+            transform: translateY(-6px) scale(0.92);
+            pointer-events: none;
+            animation: hintReveal 0.35s ease 10s forwards;
+        }
+
+        .photo-card.hint-dismissed::after {
+            animation: none;
+            opacity: 0;
+            transform: translateY(-6px) scale(0.92);
+        }
+
+        .photo-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .photo-front,
+        .photo-back {
+            position: absolute;
+            inset: 0;
+            transition: transform 0.65s ease, opacity 0.35s ease;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .photo-front {
+            transform: rotateY(0deg);
+            opacity: 1;
+            position: relative;
+            height: 100%;
+        }
+
+        .photo-front::before,
+        .photo-front::after {
+            content: "❤";
+            position: absolute;
+            bottom: 8px;
+            color: rgba(214, 35, 101, 0.86);
+            font-size: 1rem;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            animation: cardHeartFloat 2.8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .photo-front::before {
+            left: 10px;
+        }
+
+        .photo-front::after {
+            left: 28px;
+            animation-delay: 0.6s;
+            font-size: 0.85rem;
+        }
+
+        .photo-front img {
             display: block;
             width: 100%;
-            aspect-ratio: 4 / 5;
+            height: 100% !important;
             object-fit: cover;
+            object-position: center;
+        }
+
+        .photo-back {
+            transform: rotateY(180deg);
+            opacity: 0;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 0.8rem;
+            line-height: 1.5;
+            font-size: clamp(0.88rem, 2.4vw, 1rem);
+            color: #7b1a3d;
+            background: linear-gradient(160deg, #fff8fb, #ffe6ef);
+            font-weight: 700;
+        }
+
+        .photo-card.flipped .photo-front {
+            transform: rotateY(180deg);
+            opacity: 0;
+        }
+
+        .photo-card.flipped .photo-back {
+            transform: rotateY(0deg);
+            opacity: 1;
         }
 
         .back-link {
@@ -115,17 +299,71 @@
             }
         }
 
-        @keyframes floatUp {
-            from {
-                transform: translateY(0) rotate(0deg);
+        @keyframes floatHeart {
+            0% {
+                transform: translate3d(0, 0, 0) scale(0.95);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.65;
+            20% {
+                opacity: 0.62;
             }
+            55% {
+                transform: translate3d(var(--drift-x, 0px), -62vh, 0) scale(1.02);
+                opacity: 0.58;
+            }
+            100% {
+                transform: translate3d(calc(var(--drift-x, 0px) * -0.45), -125vh, 0) scale(1.08);
+                opacity: 0;
+            }
+        }
+
+        @keyframes stickerDrift {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            50% {
+                transform: translateY(-6px) rotate(-4deg) scale(1.03);
+            }
+        }
+
+        @keyframes sideRise {
+            0% {
+                transform: translate3d(calc(-50% + var(--side-x, 0px)), 0, 0) scale(0.8);
+                opacity: 0;
+            }
+            12% {
+                opacity: 0.9;
+            }
+            55% {
+                transform: translate3d(calc(-50% + var(--side-x, 0px) + 10px), -55vh, 0) scale(1);
+                opacity: 0.85;
+            }
+            100% {
+                transform: translate3d(calc(-50% + var(--side-x, 0px) - 8px), -115vh, 0) scale(1.12);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cardHeartFloat {
+            0% {
+                transform: translateY(0) scale(0.95);
+                opacity: 0.75;
+            }
+            50% {
+                transform: translateY(-9px) scale(1.08);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) scale(0.95);
+                opacity: 0.75;
+            }
+        }
+
+        @keyframes hintReveal {
             to {
-                transform: translateY(-120vh) rotate(360deg);
-                opacity: 0;
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -133,38 +371,240 @@
             .photo-grid {
                 grid-template-columns: 1fr;
             }
+
+            .sticker-float {
+                width: clamp(48px, 14vw, 74px);
+                opacity: 0.9;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .wrap,
-            .heart {
+            .sticker-float,
+            .photo-front::before,
+            .photo-front::after {
                 animation: none;
+            }
+
+            .heart,
+            .side-particle {
+                animation-duration: 18s;
             }
         }
     </style>
 </head>
 <body>
-    <div class="heart">❤</div>
-    <div class="heart">❤</div>
-    <div class="heart">❤</div>
-    <div class="heart">❤</div>
-    <div class="heart">❤</div>
+    <div class="bg-hearts" id="bgHearts" aria-hidden="true"></div>
+
+    <div class="side-hearts left" id="sideHeartsLeft" aria-hidden="true">
+        <span class="side-particle" style="--side-x:-34px;--side-duration:9.8s;--side-delay:-1.1s;">❤</span>
+        <span class="side-particle tulip" style="--side-x:-10px;--side-duration:11.2s;--side-delay:-4.8s;">🌷</span>
+        <span class="side-particle" style="--side-x:16px;--side-duration:10.4s;--side-delay:-7.2s;">💗</span>
+        <span class="side-particle tulip" style="--side-x:32px;--side-duration:12.1s;--side-delay:-2.6s;">🌷</span>
+        <span class="side-particle" style="--side-x:-22px;--side-duration:9.4s;--side-delay:-6.3s;">♥</span>
+        <span class="side-particle tulip" style="--side-x:6px;--side-duration:11.7s;--side-delay:-9.5s;">🌷</span>
+    </div>
+
+    <div class="side-hearts right" id="sideHeartsRight" aria-hidden="true">
+        <span class="side-particle" style="--side-x:-30px;--side-duration:10.1s;--side-delay:-2.2s;">❤</span>
+        <span class="side-particle tulip" style="--side-x:-6px;--side-duration:11.6s;--side-delay:-5.7s;">🌷</span>
+        <span class="side-particle" style="--side-x:20px;--side-duration:10.8s;--side-delay:-8.4s;">💕</span>
+        <span class="side-particle tulip" style="--side-x:34px;--side-duration:12.3s;--side-delay:-3.4s;">🌷</span>
+        <span class="side-particle" style="--side-x:-18px;--side-duration:9.3s;--side-delay:-6.9s;">♥</span>
+        <span class="side-particle tulip" style="--side-x:8px;--side-duration:11.9s;--side-delay:-10.1s;">🌷</span>
+    </div>
+
+    <div class="sticker-float sticker-1" aria-label="Bubu and Dudu cuddle sticker">
+        <div class="sticker-svg">
+            <svg viewBox="0 0 120 120" role="img" aria-label="Bubu and Dudu cuddle">
+                <rect x="10" y="55" width="100" height="44" rx="20" fill="#8ad6f0"/>
+                <circle cx="44" cy="54" r="18" fill="#c98a5d"/>
+                <circle cx="75" cy="52" r="17" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="36" cy="41" r="5" fill="#b2754a"/>
+                <circle cx="52" cy="41" r="5" fill="#b2754a"/>
+                <ellipse cx="70" cy="40" rx="4" ry="6" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <ellipse cx="80" cy="40" rx="4" ry="6" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="40" cy="53" r="2" fill="#222"/>
+                <circle cx="48" cy="53" r="2" fill="#222"/>
+                <circle cx="70" cy="52" r="2" fill="#222"/>
+                <circle cx="78" cy="52" r="2" fill="#222"/>
+                <path d="M42 58 Q44 60 46 58" stroke="#222" stroke-width="1.5" fill="none"/>
+                <path d="M72 57 Q74 59 76 57" stroke="#222" stroke-width="1.5" fill="none"/>
+                <path d="M24 25 C24 18 34 18 34 25 C34 31 29 34 29 34 C29 34 24 31 24 25Z" fill="#ff6b88"/>
+                <path d="M88 20 C88 14 97 14 97 20 C97 26 92 29 92 29 C92 29 88 26 88 20Z" fill="#ff8ca4"/>
+            </svg>
+        </div>
+    </div>
+    <div class="sticker-float sticker-2" aria-label="Bubu and Dudu heart sticker">
+        <div class="sticker-svg">
+            <svg viewBox="0 0 120 120" role="img" aria-label="Bubu and Dudu heart">
+                <circle cx="44" cy="65" r="19" fill="#c98a5d"/>
+                <circle cx="77" cy="65" r="17" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="36" cy="50" r="5" fill="#b2754a"/>
+                <circle cx="52" cy="50" r="5" fill="#b2754a"/>
+                <ellipse cx="72" cy="50" rx="4" ry="7" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <ellipse cx="82" cy="50" rx="4" ry="7" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="40" cy="64" r="2" fill="#222"/>
+                <circle cx="48" cy="64" r="2" fill="#222"/>
+                <circle cx="73" cy="64" r="2" fill="#222"/>
+                <circle cx="81" cy="64" r="2" fill="#222"/>
+                <path d="M42 69 Q44 71 46 69" stroke="#222" stroke-width="1.5" fill="none"/>
+                <path d="M75 69 Q77 71 79 69" stroke="#222" stroke-width="1.5" fill="none"/>
+                <line x1="46" y1="34" x2="46" y2="46" stroke="#777" stroke-width="2"/>
+                <path d="M38 30 C38 22 50 22 50 30 C50 37 44 41 44 41 C44 41 38 37 38 30Z" fill="#ef3d4e"/>
+                <path d="M66 87 Q76 94 87 87" stroke="#89c6d8" stroke-width="4" fill="none"/>
+            </svg>
+        </div>
+    </div>
+    <div class="sticker-float sticker-3" aria-label="Bubu and Dudu cuddle sticker">
+        <div class="sticker-svg">
+            <svg viewBox="0 0 120 120" role="img" aria-label="Bubu and Dudu cuddle">
+                <rect x="10" y="55" width="100" height="44" rx="20" fill="#8ad6f0"/>
+                <circle cx="44" cy="54" r="18" fill="#c98a5d"/>
+                <circle cx="75" cy="52" r="17" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="36" cy="41" r="5" fill="#b2754a"/>
+                <circle cx="52" cy="41" r="5" fill="#b2754a"/>
+                <ellipse cx="70" cy="40" rx="4" ry="6" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <ellipse cx="80" cy="40" rx="4" ry="6" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="40" cy="53" r="2" fill="#222"/>
+                <circle cx="48" cy="53" r="2" fill="#222"/>
+                <circle cx="70" cy="52" r="2" fill="#222"/>
+                <circle cx="78" cy="52" r="2" fill="#222"/>
+                <path d="M42 58 Q44 60 46 58" stroke="#222" stroke-width="1.5" fill="none"/>
+                <path d="M72 57 Q74 59 76 57" stroke="#222" stroke-width="1.5" fill="none"/>
+                <path d="M24 25 C24 18 34 18 34 25 C34 31 29 34 29 34 C29 34 24 31 24 25Z" fill="#ff6b88"/>
+                <path d="M88 20 C88 14 97 14 97 20 C97 26 92 29 92 29 C92 29 88 26 88 20Z" fill="#ff8ca4"/>
+            </svg>
+        </div>
+    </div>
+    <div class="sticker-float sticker-4" aria-label="Bubu and Dudu heart sticker">
+        <div class="sticker-svg">
+            <svg viewBox="0 0 120 120" role="img" aria-label="Bubu and Dudu heart">
+                <circle cx="44" cy="65" r="19" fill="#c98a5d"/>
+                <circle cx="77" cy="65" r="17" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="36" cy="50" r="5" fill="#b2754a"/>
+                <circle cx="52" cy="50" r="5" fill="#b2754a"/>
+                <ellipse cx="72" cy="50" rx="4" ry="7" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <ellipse cx="82" cy="50" rx="4" ry="7" fill="#fffdf9" stroke="#d8d8d8" stroke-width="1"/>
+                <circle cx="40" cy="64" r="2" fill="#222"/>
+                <circle cx="48" cy="64" r="2" fill="#222"/>
+                <circle cx="73" cy="64" r="2" fill="#222"/>
+                <circle cx="81" cy="64" r="2" fill="#222"/>
+                <path d="M42 69 Q44 71 46 69" stroke="#222" stroke-width="1.5" fill="none"/>
+                <path d="M75 69 Q77 71 79 69" stroke="#222" stroke-width="1.5" fill="none"/>
+                <line x1="46" y1="34" x2="46" y2="46" stroke="#777" stroke-width="2"/>
+                <path d="M38 30 C38 22 50 22 50 30 C50 37 44 41 44 41 C44 41 38 37 38 30Z" fill="#ef3d4e"/>
+                <path d="M66 87 Q76 94 87 87" stroke="#89c6d8" stroke-width="4" fill="none"/>
+            </svg>
+        </div>
+    </div>
 
     <main class="wrap">
         <h1>For You, Bby</h1>
+
 
         <p class="message">
             dont leave me mahal im always here to understand you even kahit diko alam kung anong dahilan ng ikinagagalit mo minsan pero never nawala ung feelings ko sayo opo iknow na minsan na iinis ka sa ugali ko but please wag kang mawawala sa ganung dahilan lang kasi kahit anong mang yari ikaw lng talga ginugusto ko and never napo akong nag kagusto pa sa iba mahal na mahal kita bby ikaw lng palagi mag kikita din tayo soon i promise Iloveeeeyouusomuchhh and happy valentines
         </p>
 
         <section class="photo-grid" aria-label="Photos of my bby">
-            <figure class="photo-card"><img src="photo1.jpg" alt="Bby photo 1"></figure>
-            <figure class="photo-card"><img src="photo2.jpg" alt="Bby photo 2"></figure>
-            <figure class="photo-card"><img src="photo3.jpg" alt="Bby photo 3"></figure>
-            <figure class="photo-card"><img src="photo4.jpg" alt="Bby photo 4"></figure>
+            <figure class="photo-card" tabindex="0" aria-label="Photo 1, click to flip">
+                <div class="photo-inner">
+                    <div class="photo-front"><img src="photo1.jpg" alt="Bby photo 1"></div>
+                    <figcaption class="photo-back">you so ganda talga as always kahit dimoko sinesendan na ng picture this picture is one of my favourite</figcaption>
+                </div>
+            </figure>
+
+            <figure class="photo-card" tabindex="0" aria-label="Photo 2, click to flip">
+                <div class="photo-inner">
+                    <div class="photo-front"><img src="photo2.jpg" alt="Bby photo 2"></div>
+                    <figcaption class="photo-back">Ackkkkkk even here youu so pogiii padin mahall kagatin klita jan eh hayzz ehemmm saana masendan ng kagandahan ng isa jan</figcaption>
+                </div>
+            </figure>
+
+            <figure class="photo-card" tabindex="0" aria-label="Photo 3, click to flip">
+                <div class="photo-inner">
+                    <div class="photo-front"><img src="photo3.jpg" alt="Bby photo 3"></div>
+                    <figcaption class="photo-back">This one is super special to me, bby. Every time I see this smile, my whole day becomes complete.</figcaption>
+                </div>
+            </figure>
+
+            <figure class="photo-card" tabindex="0" aria-label="Photo 4, click to flip">
+                <div class="photo-inner">
+                    <div class="photo-front"><img src="photo4.jpg" alt="Bby photo 4"></div>
+                    <figcaption class="photo-back">My forever favorite person. No matter what happens, ikaw pa rin ang home ko and my sweetest peace.</figcaption>
+                </div>
+            </figure>
         </section>
 
         <a class="back-link" href="index.html">Back</a>
     </main>
+
+    <script>
+        function createFloatingHearts(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                return;
+            }
+
+            const hearts = ["❤", "♥", "💕", "💗"];
+
+            for (let i = 0; i < count; i += 1) {
+                const heart = document.createElement("span");
+                heart.className = "heart";
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${12 + Math.random() * 20}px`;
+                heart.style.setProperty("--float-duration", `${9 + Math.random() * 8}s`);
+                heart.style.setProperty("--float-delay", `${Math.random() * -18}s`);
+                heart.style.setProperty("--drift-x", `${-26 + Math.random() * 52}px`);
+                container.appendChild(heart);
+            }
+        }
+
+        function createSideHearts(containerId, count) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                return;
+            }
+
+            const particles = ["❤", "♥", "💕", "💗", "🌷"];
+
+            for (let i = 0; i < count; i += 1) {
+                const particle = document.createElement("span");
+                const symbol = particles[Math.floor(Math.random() * particles.length)];
+
+                particle.className = symbol === "🌷" ? "side-particle tulip" : "side-particle";
+                particle.textContent = symbol;
+                particle.style.setProperty("--side-duration", `${8 + Math.random() * 7}s`);
+                particle.style.setProperty("--side-delay", `${Math.random() * -16}s`);
+                particle.style.setProperty("--side-x", `${-22 + Math.random() * 44}px`);
+                particle.style.fontSize = `${13 + Math.random() * 15}px`;
+                container.appendChild(particle);
+            }
+        }
+
+        createFloatingHearts("bgHearts", 38);
+        createSideHearts("sideHeartsLeft", 18);
+        createSideHearts("sideHeartsRight", 18);
+
+        const photoCards = document.querySelectorAll(".photo-card");
+
+        photoCards.forEach((card) => {
+            const flipCard = () => {
+                card.classList.add("hint-dismissed");
+                card.classList.toggle("flipped");
+            };
+
+            card.addEventListener("click", flipCard);
+
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    flipCard();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
