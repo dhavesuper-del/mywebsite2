@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Love</title>
+    <title>For My Bby</title>
     <style>
         :root {
             --rose: #d72660;
@@ -72,23 +72,48 @@
             line-height: 1.6;
         }
 
-        .surprise-btn {
+        .button-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .surprise-btn,
+        .open-btn {
             border: 0;
             border-radius: 999px;
-            background: linear-gradient(135deg, #d72660, #ee5f89);
             color: #fff;
             font-size: 1rem;
             font-weight: 700;
             letter-spacing: 0.3px;
             padding: 0.75rem 1.2rem;
             cursor: pointer;
-            box-shadow: 0 10px 18px rgba(215, 38, 96, 0.25);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .surprise-btn:hover {
+        .surprise-btn {
+            background: linear-gradient(135deg, #d72660, #ee5f89);
+            box-shadow: 0 10px 18px rgba(215, 38, 96, 0.25);
+        }
+
+        .open-btn {
+            background: linear-gradient(135deg, #b21f52, #8d1740);
+            box-shadow: 0 10px 18px rgba(141, 23, 64, 0.25);
+        }
+
+        .surprise-btn:hover,
+        .open-btn:hover {
             transform: translateY(-2px) scale(1.03);
+        }
+
+        .surprise-btn:hover {
             box-shadow: 0 14px 24px rgba(215, 38, 96, 0.3);
+        }
+
+        .open-btn:hover {
+            box-shadow: 0 14px 24px rgba(141, 23, 64, 0.35);
         }
 
         .surprise-message {
@@ -97,6 +122,37 @@
             font-weight: 700;
             color: #a01b4a;
         }
+
+        .reasons {
+            margin: 1rem auto 1.4rem;
+            max-width: 560px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(215, 38, 96, 0.2);
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+        }
+
+        .reasons h2 {
+            margin: 0 0 0.55rem;
+            font-size: 1rem;
+            color: #b21f52;
+        }
+
+        .reasons ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            line-height: 1.55;
+            font-size: 0.98rem;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            animation: blink 1s step-end infinite;
+        }
+
+
 
         .heart {
             position: absolute;
@@ -141,6 +197,12 @@
             }
         }
 
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
         @media (max-width: 560px) {
             .card {
                 padding: 1.5rem 1rem;
@@ -153,6 +215,18 @@
 
             .love-note {
                 font-size: 0.95rem;
+            }
+
+            .reasons ul {
+                font-size: 0.94rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .heart,
+            .card,
+            .cursor {
+                animation: none;
             }
         }
     </style>
@@ -168,32 +242,72 @@
     <div class="heart">❤</div>
 
     <main class="card" role="main">
-        <h1>Happy Valentine's Day, My Love</h1>
-        <p class="subtitle">You make every day brighter, softer, and happier. This little page is just for you.</p>
+        <h1>Happy Valentine's Day, My Bby</h1>
+        <p class="subtitle">You make every day brighter, softer, and happier. This little page is only for you, bby.</p>
 
-        <section class="love-note" aria-label="Love note">
+        <section class="love-note" aria-label="Bby note">
             Thank you for your smile, your kindness, and the way you make my world feel like home.
-            I love you more than words can explain, today and always.
+            You are my bby, today and always.
         </section>
 
-        <button id="surpriseBtn" class="surprise-btn" type="button">Tap for a Surprise</button>
+        <section class="reasons" aria-label="Reasons I adore you">
+            <h2>3 Reasons You Are My Favorite Person</h2>
+            <ul>
+                <li>You make ordinary days feel special.</li>
+                <li>Your laugh is my favorite sound.</li>
+                <li>Life feels lighter when I am with you.</li>
+            </ul>
+        </section>
+
+        <div class="button-row">
+            <button id="surpriseBtn" class="surprise-btn" type="button">Tap for a Surprise</button>
+            <button id="openBtn" class="open-btn" type="button">Open</button>
+        </div>
+
         <p id="surpriseMessage" class="surprise-message" aria-live="polite"></p>
     </main>
 
     <script>
         const messages = [
-            "You are my favorite notification.",
-            "Every love song makes sense because of you.",
-            "Forever sounds perfect with you.",
-            "I choose you, every single day."
+            "Bby, you are my favorite notification.",
+            "Every love song makes sense because of you, bby.",
+            "Forever sounds perfect with you, bby.",
+            "I choose you, every single day, bby."
         ];
 
         const button = document.getElementById("surpriseBtn");
+        const openBtn = document.getElementById("openBtn");
         const message = document.getElementById("surpriseMessage");
+
+        let typingTimer = null;
+
+        function typeMessage(text) {
+            let i = 0;
+            message.textContent = "";
+
+            if (typingTimer) {
+                clearInterval(typingTimer);
+            }
+
+            typingTimer = setInterval(() => {
+                message.textContent = text.slice(0, i + 1);
+                i += 1;
+
+                if (i >= text.length) {
+                    clearInterval(typingTimer);
+                    typingTimer = null;
+                    message.innerHTML = `${text}<span class="cursor">|</span>`;
+                }
+            }, 35);
+        }
 
         button.addEventListener("click", () => {
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            message.textContent = randomMessage;
+            typeMessage(randomMessage);
+        });
+
+        openBtn.addEventListener("click", () => {
+            window.location.href = "open.html";
         });
     </script>
 </body>

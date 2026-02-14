@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Bby - Open</title>
+    <style>
+        :root {
+            --bg1: #ffe0eb;
+            --bg2: #fff4f8;
+            --rose: #c81f58;
+            --deep: #6f1736;
+            --soft: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--deep);
+            background: radial-gradient(circle at 20% 20%, #fff, transparent 40%),
+                        linear-gradient(160deg, var(--bg1), var(--bg2));
+            padding: 1.2rem;
+            overflow-x: hidden;
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            color: rgba(200, 31, 88, 0.45);
+            animation: floatUp linear infinite;
+            pointer-events: none;
+        }
+
+        .heart:nth-child(1) { left: 10%; font-size: 18px; animation-duration: 11s; }
+        .heart:nth-child(2) { left: 28%; font-size: 24px; animation-duration: 14s; }
+        .heart:nth-child(3) { left: 52%; font-size: 16px; animation-duration: 10s; }
+        .heart:nth-child(4) { left: 72%; font-size: 22px; animation-duration: 13s; }
+        .heart:nth-child(5) { left: 90%; font-size: 17px; animation-duration: 12s; }
+
+        .wrap {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.86);
+            border: 2px solid rgba(200, 31, 88, 0.2);
+            border-radius: 22px;
+            box-shadow: 0 18px 40px rgba(111, 23, 54, 0.2);
+            padding: 1.25rem;
+            animation: pageOpen 0.95s ease-out both;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            margin: 0 0 0.6rem;
+            text-align: center;
+            color: var(--rose);
+            font-size: clamp(1.7rem, 4.3vw, 2.7rem);
+        }
+
+        .message {
+            line-height: 1.65;
+            font-size: clamp(0.96rem, 2.6vw, 1.1rem);
+            background: var(--soft);
+            border: 1px dashed rgba(200, 31, 88, 0.35);
+            border-radius: 14px;
+            padding: 0.95rem;
+            margin: 0.7rem 0 1rem;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .photo-card {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid rgba(200, 31, 88, 0.22);
+            background: #fff;
+            box-shadow: 0 12px 24px rgba(111, 23, 54, 0.15);
+        }
+
+        .photo-card img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, #b01d50, #8a163f);
+            border-radius: 999px;
+            padding: 0.62rem 1rem;
+            font-weight: 700;
+        }
+
+        @keyframes pageOpen {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.65;
+            }
+            to {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wrap,
+            .heart {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+
+    <main class="wrap">
+        <h1>For You, Bby</h1>
+
+        <p class="message">
+            dont leave me mahal im always here to understand you even kahit diko alam kung anong dahilan ng ikinagagalit mo minsan pero never nawala ung feelings ko sayo opo iknow na minsan na iinis ka sa ugali ko but please wag kang mawawala sa ganung dahilan lang kasi kahit anong mang yari ikaw lng talga ginugusto ko and never napo akong nag kagusto pa sa iba mahal na mahal kita bby ikaw lng palagi mag kikita din tayo soon i promise Iloveeeeyouusomuchhh and happy valentines
+        </p>
+
+        <section class="photo-grid" aria-label="Photos of my bby">
+            <figure class="photo-card"><img src="photo1.jpg" alt="Bby photo 1"></figure>
+            <figure class="photo-card"><img src="photo2.jpg" alt="Bby photo 2"></figure>
+            <figure class="photo-card"><img src="photo3.jpg" alt="Bby photo 3"></figure>
+            <figure class="photo-card"><img src="photo4.jpg" alt="Bby photo 4"></figure>
+        </section>
+
+        <a class="back-link" href="index.html">Back</a>
+    </main>
+</body>
+</html>
