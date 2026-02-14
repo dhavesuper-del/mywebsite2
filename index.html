@@ -194,6 +194,22 @@
         .bg-sticker.s3 { left: 18px; bottom: 26px; animation-delay: 0.8s; }
         .bg-sticker.s4 { right: 16px; bottom: 26px; animation-delay: 1.2s; }
 
+        .card-sticker {
+            display: none;
+            position: absolute;
+            width: clamp(54px, 18vw, 86px);
+            height: auto;
+            pointer-events: none;
+            z-index: 4;
+            filter: drop-shadow(0 7px 12px rgba(116, 28, 58, 0.22));
+            animation: stickerFloat 3.8s ease-in-out infinite;
+        }
+
+        .card-sticker.c1 { top: -16px; left: -16px; animation-delay: 0s; }
+        .card-sticker.c2 { top: -16px; right: -16px; animation-delay: 0.35s; }
+        .card-sticker.c3 { bottom: -16px; left: -16px; animation-delay: 0.7s; }
+        .card-sticker.c4 { bottom: -16px; right: -16px; animation-delay: 1.05s; }
+
         .heart {
             position: absolute;
             bottom: -12vh;
@@ -275,8 +291,12 @@
             }
 
             .bg-sticker {
-                width: clamp(52px, 15vw, 86px);
-                opacity: 0.88;
+                display: none;
+            }
+
+            .card-sticker {
+                display: block;
+                width: clamp(50px, 16vw, 80px);
             }
         }
 
@@ -300,6 +320,11 @@
     </div>
 
     <main class="card" role="main">
+        <img class="card-sticker c1" src="sticker1.gif" alt="" onerror="this.style.display='none'">
+        <img class="card-sticker c2" src="sticker2.gif" alt="" onerror="this.style.display='none'">
+        <img class="card-sticker c3" src="sticker3.gif" alt="" onerror="this.style.display='none'">
+        <img class="card-sticker c4" src="sticker4.gif" alt="" onerror="this.style.display='none'">
+
         <h1>Happy Valentine's Day, My Bby</h1>
         <p class="subtitle">You make every day brighter, softer, and happier. This little page is only for you, bby.</p>
 
